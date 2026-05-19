@@ -12,15 +12,15 @@ library(dplyr)
 # Here we extract the date of the main national holidays in Italy for the selected years. For instance
 # Easter(2015), gives the date of the Easter in 2015.
 holidays_vec = sort(c(
-  ymd(NewYearsDay(2011:2024)),
-  ymd(ITEpiphany(2011:2024)),
-  ymd(Easter(2011:2024)),
-  ymd(ITLiberationDay(2011:2024)),
-  ymd(LaborDay(2011:2024)),
-  seq(ymd('2011-06-02'), ymd('2024-06-02'), by='years'),
-  ymd(ITAssumptionOfVirginMary(2011:2024)),
-  ymd(ITAllSaints(2011:2024)),
-  ymd(ITImmaculateConception(2011:2024))
+  ymd(NewYearsDay(2011:2023)),
+  ymd(ITEpiphany(2011:2023)),
+  ymd(Easter(2011:2023)),
+  ymd(ITLiberationDay(2011:2023)),
+  ymd(LaborDay(2011:2023)),
+  seq(ymd('2011-06-02'), ymd('2023-06-02'), by='years'),
+  ymd(ITAssumptionOfVirginMary(2011:2023)),
+  ymd(ITAllSaints(2011:2023)),
+  ymd(ITImmaculateConception(2011:2023))
 )
 )
 
@@ -48,8 +48,7 @@ holiday_df <- holiday_df %>% select(-Year)
 
 
 # store output
-saveRDS(holiday_df, file="Output/holiday_df")
-saveRDS(holiday_df, file="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/Holidays df/holidays_11_24.rds")
+saveRDS(holiday_df, file="~/Holidays df/holidays_11_23.rds")
 
 
 ##################################################################################
