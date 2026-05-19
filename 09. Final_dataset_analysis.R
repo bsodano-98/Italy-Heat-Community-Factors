@@ -1,11 +1,11 @@
 ########
-# Create final dataset dat_65pl_bio for the analysis
+# Create final dataset dat_65pl for the analysis
 
 #Extract summer months and merge pop_deaths files, temperature files and 
 #shapefile (name of municipalities and other codes)
 
 # Extract summer months (may-september) from temperature and save
-temp <- readRDS("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/temperature_XX/temperature_2013.rds")
+temp <- readRDS("~/temperature_XX/temperature_2013.rds")
 
 # Verify date is a date
 temp$date <- as.Date(temp$date)
@@ -20,11 +20,11 @@ temp <- temp %>%
   filter(month %in% 5:9)
 
 #Save file temperature in summer months
-saveRDS(temp, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/temp_summerXX/temp_summer2013.rds")
+saveRDS(temp, file ="~/temp_summerXX/temp_summer2013.rds")
 
 ##################################################################################
 #Extract summer months from pop_deaths datasets
-deaths <- readRDS("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop_deaths_XX/pop_deaths_2023.rds")
+deaths <- readRDS("~/pop_deaths_XX/pop_deaths_2023.rds")
 
 # Verify date is a date
 deaths$date <- as.Date(deaths$date)
@@ -39,12 +39,12 @@ deaths <- deaths %>%
   filter(month %in% 5:9)
 
 #Save file temperature in summer months
-saveRDS(deaths, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/popdeaths_summerXX/popdeaths_summer2023.rds")
+saveRDS(deaths, file ="~/popdeaths_summerXX/popdeaths_summer2023.rds")
 
 ###################################################################################
 #Link between pop/deaths and daily temperature in summer months, one dataset per month
-pop <- readRDS("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/popdeaths_summerXX/popdeaths_summer2024.rds")
-temp <- readRDS("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/temp_summerXX/temp_summer2024.rds")
+pop <- readRDS("~/popdeaths_summerXX/popdeaths_summer2024.rds")
+temp <- readRDS("~/temp_summerXX/temp_summer2024.rds")
 
 pop <- pop %>% select(-month, -Municipality)
 temp <- temp %>% select(-month)
@@ -59,10 +59,9 @@ daily <- pop %>%
 
 #Open shapefile, create a dataset with code municipality and name of the municipality, link by code
 library(sf)
-shp <- read_sf("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/Shapefile_modificato/shp.shp")
+shp <- read_sf("~/Shapefile_modificato/shp.shp")
 #7895 municipalities
 
-# Rimuovi la colonna 'geometry' (spaziale) e ottieni solo le colonne attributive
 shp <- st_drop_geometry(shp)
 
 shp <- shp %>% select(PRO_COM_T, COMUNE, COD_REG, COD_PROV)
@@ -85,7 +84,7 @@ daily_2024 <- daily %>%
   left_join(shp, by = c("Code" = "PRO_COM_T"))
 
 #Add holidays to the daily datasets
-daily_2011 <- readRDS("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/Deaths_temperature/daily_2011.rds")
+daily_2011 <- readRDS("~/Deaths_temperature/daily_2011.rds")
 
 daily_2011 <- daily_2011 %>%
   left_join(holiday_df, by = c("date" = "Data"))
@@ -94,7 +93,6 @@ daily_2011 <- daily_2011 %>%
   mutate(holiday = replace(holiday, is.na(holiday), 0))
 
 #Now add relative humidity for 2011-2023
-#Aggiungo la relative humidity separatamente per i dataset di daily
 # 153 gg may-september *13*7895
 library(stringr)
 Italy_municipalities_relative_humidity_2011_2023$PRO_COM_T <- str_pad(Italy_municipalities_relative_humidity_2011_2023$PRO_COM_T, width = 6, pad = "0")
@@ -104,7 +102,7 @@ daily_2023 <- daily_2023 %>%
   left_join(Italy_municipalities_relative_humidity_2011_2023, by = c("date"="date", "Code" = "PRO_COM_T"))
 
 #Save daily_XX
-saveRDS(daily_2023, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/Deaths_temperature/daily_2023.rds")
+saveRDS(daily_2023, file ="~/Deaths_temperature/daily_2023.rds")
 
 daily_2013$date <- as.Date(daily_2013$date, format = "%Y-%m-%d")
 
@@ -174,7 +172,7 @@ dat_2023$dow <- as.integer(format(dat_2023$date, "%u"))
 
 ### ---- CONCATENATE ----
 
-dat_65pl_bio <- bind_rows(
+dat_65pl <- bind_rows(
   dat_2011, dat_2012, dat_2013, dat_2014, dat_2015,
   dat_2016, dat_2017, dat_2018, dat_2019, dat_2020,
   dat_2021, dat_2022, dat_2023
@@ -183,12 +181,12 @@ dat_65pl_bio <- bind_rows(
 
 ### ---- CREATE IDS ----
 
-dat_65pl_bio$id_region <- as.numeric(factor(dat_65pl_bio$Code))
+dat_65pl$id_region <- as.numeric(factor(dat_65pl_bio$Code))
 
-dat_65pl_bio$id_region1 <- dat_65pl_bio$id_region
-dat_65pl_bio$id_region2 <- dat_65pl_bio$id_region
-dat_65pl_bio$id_region3 <- dat_65pl_bio$id_region
-dat_65pl_bio$id_region4 <- dat_65pl_bio$id_region
+dat_65pl$id_region1 <- dat_65pl$id_region
+dat_65pl$id_region2 <- dat_65pl$id_region
+dat_65pl$id_region3 <- dat_65pl$id_region
+dat_65pl$id_region4 <- dat_65pl$id_region
 
 dat_11_23$id.year <- dat_11_23$year - 2010
 
@@ -196,6 +194,5 @@ dat_11_23$id.year <- dat_11_23$year - 2010
 ### ---- SAVE FINAL DATASET ----
 
 saveRDS(
-  dat_65pl_bio,
-  file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop_deaths_temp_lag/dat_65pl_bio.rds.rds"
-)
+  dat_65pl,
+  file ="~/dat_65pl.rds.rds")
