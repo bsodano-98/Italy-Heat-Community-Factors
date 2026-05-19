@@ -1,4 +1,4 @@
-#03. Population daily
+#Population daily
 
 
 # Calculate daily population
@@ -14,21 +14,21 @@ library(lubridate)
 library(stringr)
 library(ISOweek)
 
-#Open datasets from pop11 to pop24
-pop11 <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset SAS/pop11.csv", fileEncoding = "ISO-8859-1", sep = ",")
-pop12 <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset SAS/pop12.csv", fileEncoding = "ISO-8859-1", sep = ",")
-pop13 <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset SAS/pop13.csv", fileEncoding = "ISO-8859-1", sep = ",")
-pop14 <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset SAS/pop14.csv", fileEncoding = "ISO-8859-1", sep = ",")
-pop15 <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset SAS/pop15.csv", fileEncoding = "ISO-8859-1", sep = ",")
-pop16 <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset SAS/pop16.csv", fileEncoding = "ISO-8859-1", sep = ",")
-pop17 <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset SAS/pop17.csv", fileEncoding = "ISO-8859-1", sep = ",")
-pop18 <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset SAS/pop18.csv", fileEncoding = "ISO-8859-1", sep = ",")
-pop19 <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset SAS/pop19.csv", fileEncoding = "ISO-8859-1", sep = ",")
-pop20 <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset SAS/pop20.csv", fileEncoding = "ISO-8859-1", sep = ",")
-pop21 <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset SAS/pop21.csv", fileEncoding = "ISO-8859-1", sep = ",")
-pop22 <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset SAS/pop22.csv", fileEncoding = "ISO-8859-1", sep = ",")
-pop23 <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset SAS/pop23.csv", fileEncoding = "ISO-8859-1", sep = ",")
-pop24 <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset SAS/pop24.csv", fileEncoding = "ISO-8859-1", sep = ",")
+#Open datasets from pop11 to pop23
+pop11 <- read.csv2("~/pop11.csv", fileEncoding = "ISO-8859-1", sep = ",")
+pop12 <- read.csv2("~/pop12.csv", fileEncoding = "ISO-8859-1", sep = ",")
+pop13 <- read.csv2("~/pop13.csv", fileEncoding = "ISO-8859-1", sep = ",")
+pop14 <- read.csv2("~/pop14.csv", fileEncoding = "ISO-8859-1", sep = ",")
+pop15 <- read.csv2("~/pop15.csv", fileEncoding = "ISO-8859-1", sep = ",")
+pop16 <- read.csv2("~/pop16.csv", fileEncoding = "ISO-8859-1", sep = ",")
+pop17 <- read.csv2("~/pop17.csv", fileEncoding = "ISO-8859-1", sep = ",")
+pop18 <- read.csv2("~/pop18.csv", fileEncoding = "ISO-8859-1", sep = ",")
+pop19 <- read.csv2("~/pop19.csv", fileEncoding = "ISO-8859-1", sep = ",")
+pop20 <- read.csv2("~/pop20.csv", fileEncoding = "ISO-8859-1", sep = ",")
+pop21 <- read.csv2("~/pop21.csv", fileEncoding = "ISO-8859-1", sep = ",")
+pop22 <- read.csv2("~/pop22.csv", fileEncoding = "ISO-8859-1", sep = ",")
+pop23 <- read.csv2("~/pop23.csv", fileEncoding = "ISO-8859-1", sep = ",")
+
 
 # add 0 in front of municipality codes that have less than 6 numbers in the code
 # sometimes the code has some 0 sometimes not, need to uniform 
@@ -51,7 +51,6 @@ pop20 <- pad_code(pop20)
 pop21 <- pad_code(pop21)
 pop22 <- pad_code(pop22)
 pop23 <- pad_code(pop23)
-pop24 <- pad_code(pop24)
 
 # As the population is only available for the 1st of January of every year, we need to create a daily version
 # to feed in the model. 
@@ -97,21 +96,20 @@ pop20_daily <- process_daily_data(pop20, 2020)
 pop21_daily <- process_daily_data(pop21, 2021)
 pop22_daily <- process_daily_data(pop22, 2022)
 pop23_daily <- process_daily_data(pop23, 2023)
-pop24_daily <- process_daily_data(pop24, 2024)
 
-#Store daily datasets from pop11_daiy to pop24_daily
-saveRDS(pop11_daily, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop11_daily.rds")
-saveRDS(pop12_daily, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop12_daily.rds")
-saveRDS(pop13_daily, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop13_daily.rds")
-saveRDS(pop14_daily, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop14_daily.rds")
-saveRDS(pop15_daily, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop15_daily.rds")
-saveRDS(pop16_daily, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop16_daily.rds")
-saveRDS(pop17_daily, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop17_daily.rds")
-saveRDS(pop18_daily, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop18_daily.rds")
-saveRDS(pop19_daily, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop19_daily.rds")
-saveRDS(pop20_daily, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop20_daily.rds")
-saveRDS(pop21_daily, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop21_daily.rds")
-saveRDS(pop22_daily, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop22_daily.rds")
-saveRDS(pop23_daily, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop23_daily.rds")
-saveRDS(pop24_daily, file ="C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Dataset R/pop24_daily.rds")
+#Store daily datasets from pop11_daiy to pop23_daily
+saveRDS(pop11_daily, file ="~/pop11_daily.rds")
+saveRDS(pop12_daily, file ="~/pop12_daily.rds")
+saveRDS(pop13_daily, file ="~/pop13_daily.rds")
+saveRDS(pop14_daily, file ="~/pop14_daily.rds")
+saveRDS(pop15_daily, file ="~/pop15_daily.rds")
+saveRDS(pop16_daily, file ="~/pop16_daily.rds")
+saveRDS(pop17_daily, file ="~/pop17_daily.rds")
+saveRDS(pop18_daily, file ="~/pop18_daily.rds")
+saveRDS(pop19_daily, file ="~/pop19_daily.rds")
+saveRDS(pop20_daily, file ="~/pop20_daily.rds")
+saveRDS(pop21_daily, file ="~/pop21_daily.rds")
+saveRDS(pop22_daily, file ="~/pop22_daily.rds")
+saveRDS(pop23_daily, file ="~/pop23_daily.rds")
+
 ######################################################################################
