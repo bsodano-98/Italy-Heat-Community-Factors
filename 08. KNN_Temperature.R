@@ -65,7 +65,7 @@ temperature_2013 <- dat_full
 # Save the temperature dataset
 saveRDS(dat_full, file = file = "Output/temperature_2013.rds")
 
-#At the end I will have: 
+#At the end obtain: 
 # 2011 temperature_2011
 # 2012 temperature_2012
 # 2013 temperature_2013
@@ -79,4 +79,3 @@ saveRDS(dat_full, file = file = "Output/temperature_2013.rds")
 # 2021 temperature_2021
 # 2022 temperature_2022
 # 2023 temperature_2023
-# 2024 temperature_2024
