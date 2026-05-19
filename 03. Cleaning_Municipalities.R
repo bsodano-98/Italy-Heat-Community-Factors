@@ -11,7 +11,7 @@ library(dplyr)
 
 df_split <- split(dataset_unico , dataset_unico$year)
 
-for (year in 2011:2024) {
+for (year in 2011:2023) {
   assign(paste0("deaths", year), df_split[[as.character(year)]])
 }
 
@@ -36,10 +36,9 @@ pop20 <- pad_code(pop20)
 pop21 <- pad_code(pop21)
 pop22 <- pad_code(pop22)
 pop23 <- pad_code(pop23)
-pop24 <- pad_code(pop24)
 
 #########################################################
-#Uniform the number of municipalities for every year to the municipalities at 2024, dataset from ISTAT
+#Uniform the number of municipalities for every year to the municipalities at 2023, dataset from ISTAT
 
 process_municipality <- function(df, code_to_merge, new_code, new_municipality, year_value) {
   df <- df %>%
@@ -53,7 +52,7 @@ process_municipality <- function(df, code_to_merge, new_code, new_municipality, 
   return(df)
 }
 
-#Clean POP24 and POP23 
+#Clean POP23 
 # 013199 (Ronago) + 013228 (Uggiate-Trevano) = 013256 (Uggiate con Ronago)
 # 025002 (Alano di Piave) + 025070 (Quero Vas) = 025075 (Setteville)
 # 028022 (Carceri) + 028098 (Vighizzolo d'Este) = 028108 (Santa Caterina d'Este)
@@ -66,13 +65,6 @@ pop23 <- process_municipality(pop23, c("025002", "025070"), "025075", "Settevill
 pop23 <- process_municipality(pop23, c("028022", "028098"), "028108", "Santa Caterina d'Este", 2023)
 pop23 <- process_municipality(pop23, c("024044", "024103"), "024128", "Sovizzo", 2023)
 pop23 <- process_municipality(pop23, c("018002", "018026"), "018026", "Campospinoso Albaredo", 2023)
-
-# Apply for pop24
-pop24 <- process_municipality(pop24, c("013199", "013228"), "013256", "Uggiate con Ronago", 2024)
-pop24 <- process_municipality(pop24, c("025002", "025070"), "025075", "Setteville", 2024)
-pop24 <- process_municipality(pop24, c("028022", "028098"), "028108", "Santa Caterina d'Este", 2024)
-pop24 <- process_municipality(pop24, c("024044", "024103"), "024128", "Sovizzo", 2024)
-pop24 <- process_municipality(pop24, c("018002", "018026"), "018026", "Campospinoso Albaredo", 2024)
 
 
 #Clean POP22
@@ -318,26 +310,24 @@ pop20 <- process_municipality(pop20, c("018002", "018026"), "018026", "Campospin
 
 
 ##################################################
-##  	081021 (Trapani) + 081025 (Misiliscemi) = 081021 (Trapani) from pop22 to pop24
+##  	081021 (Trapani) + 081025 (Misiliscemi) = 081021 (Trapani) from pop22 to pop23
 
 pop22 <- process_municipality(pop22, c("081021", "081025"), "081021", "Trapani", 2022)
 pop23 <- process_municipality(pop23, c("081021", "081025"), "081021", "Trapani", 2023)
-pop24 <- process_municipality(pop24, c("081021", "081025"), "081021", "Trapani", 2024)
 
 #########end
 
-#Store the separate datasets from pop11 to pop24
-saveRDS(pop11, file ="C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/pop11.rds")
-saveRDS(pop12, file ="C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/pop12.rds")
-saveRDS(pop13, file ="C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/pop13.rds")
-saveRDS(pop14, file ="C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/pop14.rds")
-saveRDS(pop15, file ="C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/pop15.rds")
-saveRDS(pop16, file ="C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/pop16.rds")
-saveRDS(pop17, file ="C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/pop17.rds")
-saveRDS(pop18, file ="C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/pop18.rds")
-saveRDS(pop19, file ="C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/pop19.rds")
-saveRDS(pop20, file ="C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/pop20.rds")
-saveRDS(pop21, file ="C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/pop21.rds")
-saveRDS(pop22, file ="C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/pop22.rds")
-saveRDS(pop23, file ="C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/pop23.rds")
-saveRDS(pop24, file ="C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/pop24.rds")
+#Store the separate datasets from pop11 to pop23
+saveRDS(pop11, file ="~/pop11.rds")
+saveRDS(pop12, file ="~/pop12.rds")
+saveRDS(pop13, file ="~/pop13.rds")
+saveRDS(pop14, file ="~/pop14.rds")
+saveRDS(pop15, file ="~/pop15.rds")
+saveRDS(pop16, file ="~/pop16.rds")
+saveRDS(pop17, file ="~/pop17.rds")
+saveRDS(pop18, file ="~/pop18.rds")
+saveRDS(pop19, file ="~/pop19.rds")
+saveRDS(pop20, file ="~/pop20.rds")
+saveRDS(pop21, file ="~/pop21.rds")
+saveRDS(pop22, file ="~/pop22.rds")
+saveRDS(pop23, file ="~/pop23.rds")
