@@ -1,6 +1,8 @@
 
 #Fix shapefile
-shp <- read_sf("C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/Shapefile_modificato/shp.shp")
+#The shapefile needs to be fixed to match the 2023 number of municipalities.
+
+shp <- read_sf("~/Shapefile_modificato/shp.shp")
 dat_65pl <- dat_65pl[, !names(dat_65pl) %in% c("id_region", "id_region1", "id_region2", "id_region3", "id_region4")]
 
 shp$id_region <- 1:nrow(shp)
@@ -32,21 +34,11 @@ colnames(shp_subset)[1] <- "Code"
 
 identical(shp_subset, sub_dat_unique)
 
-
 differences <- sub_dat_unique$Code != shp_subset$Code
 
 
 
 
-
-#####Mi assicuro che dat_65pl sia a posto
-#Ci sono missing?
-colSums(is.na(dat_65pl))  #0 missing
-
-#Mappano è ok?
-mappano <- subset(dat_65pl, COMUNE == "Mappano")
-roma <- subset(dat_65pl, COMUNE == "Roma")
-sambuci <- subset(dat_65pl, COMUNE == "Sambuci")
 scilla <- subset(dat_65pl, COMUNE == "Scilla")
 
 shp[6576, ]
