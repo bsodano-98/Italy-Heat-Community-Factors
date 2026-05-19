@@ -4,10 +4,11 @@
 
 #---------------------------------------------------------------------------------
 
-#From 2020 to 2024, we have a dataset for each year with all municipalities (4 datasets)
-#For 2022, I uploaded the dataset in SAS and then in R to be able to open it (it has problems if you try to open it in R)
-#From 2002 to 2019, we have a dataset for each province with all the years (108 datasets)
+#From 2020 to 2023, there is a dataset for each year with all municipalities (4 datasets)
+#For 2022, upload the dataset in SAS and then in R to be able to open it (it has problems if you try to open it in R)
+#From 2002 to 2019, there is a dataset for each province with all the years (108 datasets)
 
+#Libraries
 
 library(stringr)
 library(dplyr)
@@ -18,22 +19,22 @@ library(sf)
 options(encoding = "ISO-8859-1")
 library(readr)
 
-#To add 0s to the municipality code 
+#Add 0s to the municipality code 
 #codici2024$codici2024 <- str_pad(codici2024$codici2024, width = 6, pad = "0")
 
 
-################Step 1: retrieve population for the years 2020-2024#######################
-# Population for the years 2020-2024 is available here: https://demo.istat.it/#sezione1
-#To download the years 2020-2024, select the year (starting with 2020, then 2021, and so on up to 2024), go to the download area, 
+################Step 1: retrieve population for the years 2020-2023#######################
+# Population for the years 2020-2023 is available here: https://demo.istat.it/#sezione1
+#To download the years 2020-2023, select the year (starting with 2020, then 2021, and so on up to 2023), go to the download area, 
 #scroll to the bottom, and download the zip file "Comuni." You will get the POSAS_year_it_Comuni files
-# We have a dataset for each year with all municipalities(5 datasets from 2020 to 2024)
+# We have a dataset for each year with all municipalities(4 datasets from 2020 to 2023)
 # Totals (not divided by sex) are coded as 999 
 
 # Skip 1st line as it is a table header with a description of the data
-#Datasets from POSAS_2020_it_Comuni.csv to POSAS_2024_it_Comuni.csv
+#Datasets from POSAS_2020_it_Comuni.csv to POSAS_2023_it_Comuni.csv
 process_data <- function(year) {
   # Load the data for the given year
-  file_path <- paste0("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Per comune_2020_2024/POSAS_", year, "_it_Comuni.csv")
+  file_path <- paste0("~/Per comune_2020_2023/POSAS_", year, "_it_Comuni.csv")
   
   pop <- read.csv2(file_path, skip = 1)
   
@@ -85,7 +86,7 @@ pop23 <- process_data(2023)
 pop24 <- process_data(2024)
 
 ##########Csv of 2022 is different, so open and run it here:
-pop <- read.csv("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/Per comune_2020_2024/POSAS_2022_it_Comuni.csv")
+pop <- read.csv("~/Per comune_2020_2024/POSAS_2022_it_Comuni.csv")
 
 colnames(pop)[3] <- 'Eta'
 
@@ -129,10 +130,10 @@ pop %>%
 #To download the files for 2011-2019, go to the section "Intercensus reconstruction of the resident population by age as of January 1st, 
 #years 2002-2019, by territory" and download the zip file "Comuni Intercensus reconstruction of the resident population by age as of January 1st, 
 #years 2002-2019: Comuni."
-# We have a dataset for each province with all the years (108 datasets)
+# There is a dataset for each province with all the years (108 datasets)
 
 # Specify path of the folder with all the CSV files downloaded from ISTAT (108 datasets)
-cartella <- "C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/PopolazioneEta-Territorio-Comuni_2002_2019"
+cartella <- "~/PopolazioneEta-Territorio-Comuni_2002_2019"
 
 file_csv <- list.files(path = cartella, pattern = "PopolazioneEta-Territorio-ComuniProvincia_.*\\.csv", full.names = TRUE)
 
@@ -215,7 +216,7 @@ View(dataset_unico)
 
 #store dataset dataset_unico
 
-############Step 3: Valle d'Aosta, Forlì-Cesena e Bolzano cannot be read with the loop, so  here I create the extra ones
+############Step 3: Valle d'Aosta, Forlì-Cesena e Bolzano cannot be read with the loop, so  here create the extra ones
 #Put the 3 datasets of the 3 municipalities in a folder
 
 #########################Aosta
@@ -277,7 +278,7 @@ extra %>%
 
 ######################Forli
 #Open csv of Forli-Cesena
-extra <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/PopolazioneEta-Territorio-ComuniProvincia_Forlì-Cesena.csv",
+extra <- read.csv2("~/PopolazioneEta-Territorio-ComuniProvincia_Forlì-Cesena.csv",
                    sep = ";", header = FALSE, 
                    skip=1) 
 
@@ -335,7 +336,7 @@ extra %>%
 
 #################Bolzano
 #Open csv of Bolzano
-extra <- read.csv2("C:/Users/barba/OneDrive/Desktop/IMPERIAL/Dati/PopolazioneEta-Territorio-ComuniProvincia_Bolzano-Bozen.csv",
+extra <- read.csv2("~/PopolazioneEta-Territorio-ComuniProvincia_Bolzano-Bozen.csv",
                       sep = ";", header = FALSE, 
                       skip=1) 
 colnames(extra)[1] <- "Territorio/Eta"
@@ -411,7 +412,7 @@ dataset_unico <- process_and_bind(pop24, dataset_unico)
 
 
 #Store the dataset dataset_unico
-saveRDS(dataset_unico, "C:/Users/barba/OneDrive/Documents/IMPERIAL/Dati/Dataset R/dataset_unico.rds")
+saveRDS(dataset_unico, "~/dataset_unico.rds")
 
 
 #Warning: the number of rows for the datasets of different years is different because
